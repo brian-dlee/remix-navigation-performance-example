@@ -13,7 +13,7 @@ function TransitionAnimation() {
         bottom: 0,
         background: "rgba(0, 0, 0, .75)",
         color: "white",
-        display: transition.state === "loading" ? "block" : "none"
+        display: transition.state === "loading" ? "block" : "none",
       }}
     >
       Loading
@@ -22,6 +22,8 @@ function TransitionAnimation() {
 }
 
 export default function Versions() {
+  console.timeLog("render", "versions");
+
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
       <TransitionAnimation />

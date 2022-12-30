@@ -1,11 +1,12 @@
-import { LoaderFunction, json } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Link, useLoaderData, useLocation } from "@remix-run/react";
+import { Content } from "~/components/content";
 import { LocationDisplay } from "~/components/location-display";
-import { Thumbnail } from "~/components/thumbnail";
-import { range } from "~/utils";
+import { IMAGE_COUNT } from "~/constants";
 
 export const loader: LoaderFunction = () => {
-  return json({ count: 20_000 });
+  return json({ count: IMAGE_COUNT });
 };
 
 function ComponentThatRequiresLocation() {
@@ -23,6 +24,8 @@ function ComponentThatRequiresLocation() {
 export default function Good() {
   const { count } = useLoaderData();
 
+  console.timeLog("render", "good");
+
   return (
     <div>
       <h1>Good</h1>
@@ -30,11 +33,7 @@ export default function Good() {
         <Link to="/">Go Home</Link> - <Link to="/versions/bad">Go to Bad</Link>
       </div>
       <ComponentThatRequiresLocation />
-      <div>
-        {range(count).map((i) => (
-          <Thumbnail key={i} name={i.toString()} />
-        ))}
-      </div>
+      <Content count={count} />
     </div>
   );
 }
