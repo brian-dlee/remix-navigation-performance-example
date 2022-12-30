@@ -2,7 +2,10 @@ import { RemixBrowser } from "@remix-run/react";
 import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
 
-console.time("render");
+if (!window.app?.renderTimer) {
+  console.time("render");
+  window.app = { renderTimer: true };
+}
 
 const hydrate = () =>
   startTransition(() => {

@@ -6,7 +6,14 @@ import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 
-console.time("render");
+declare global {
+  var app: { renderTimer: boolean } | undefined;
+}
+
+if (!global.app?.renderTimer) {
+  console.time("render");
+  global.app = { renderTimer: true };
+}
 
 const ABORT_DELAY = 5000;
 

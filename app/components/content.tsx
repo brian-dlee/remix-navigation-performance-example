@@ -1,18 +1,18 @@
-import { range } from "~/utils";
-import { Thumbnail } from "./thumbnail";
+import { memo } from "react";
+import { Good } from "./good";
+import { Bad } from "./bad";
 
-function Inner() {
-  console.timeLog("render", "inner");
-  return <div />;
+interface Props {
+  count: number;
+  version: "good" | "bad";
 }
 
-export function Content(props: { count: number }) {
-  return (
-    <div>
-      {range(props.count).map((i) => (
-        <Thumbnail key={i} name={i.toString()} />
-      ))}
-      <Inner />
-    </div>
+export const Content = memo(function Content(props: Props) {
+  console.timeLog("render", `content (${props.version})`);
+
+  return props.version === "good" ? (
+    <Good count={props.count} />
+  ) : (
+    <Bad count={props.count} />
   );
-}
+});
