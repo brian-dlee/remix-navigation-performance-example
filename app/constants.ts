@@ -1,1 +1,1 @@
-export const IMAGE_COUNT = 100;
+export const DEFAULT_IMAGE_COUNT = 500;

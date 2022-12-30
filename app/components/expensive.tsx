@@ -1,4 +1,4 @@
-import { IMAGE_COUNT } from "~/constants";
+const largeNumber = 112312423543;
 
 export function Expensive(props: { name: string }) {
   const label = annoyinglyLongComputation(props.name);
@@ -7,27 +7,32 @@ export function Expensive(props: { name: string }) {
 }
 
 function annoyinglyLongComputation(name: string): string {
-  const codeCount = toSumOfCharCodes(name) % IMAGE_COUNT;
+  let magicNumber = recursiveReduction(toProductOfCharCodes(name), 256, 1.1);
 
+  return toCharacters(Math.round(magicNumber).toString());
+}
+
+function recursiveReduction(n: number, max: number, reducer: number): number {
+  if (n <= max) return n;
+  return recursiveReduction(n / reducer, max, reducer);
+}
+
+function toProductOfCharCodes(text: string): number {
+  let result = 1;
+  for (let i = 0; i < text.length; i++) {
+    result *= text.charCodeAt(i) * largeNumber;
+  }
+  return result;
+}
+
+function toCharacters(numericString: string): string {
   let result = "";
 
-  for (let i = 0; i < codeCount; i++) {
-    result += randomLowercaseLetter();
+  for (let i = 0; i < numericString.length; i++) {
+    result += String.fromCharCode(
+      "a".charCodeAt(0) + parseInt(numericString[i], 10)
+    );
   }
 
   return result;
-}
-
-function toSumOfCharCodes(text: string): number {
-  let result = 0;
-  for (let i = 0; i < text.length; i++) {
-    result += text.charCodeAt(i);
-  }
-  return result;
-}
-
-function randomLowercaseLetter() {
-  const min = "a".charCodeAt(0);
-  const max = "z".charCodeAt(0);
-  return String.fromCharCode(Math.floor(min + Math.random() * (max - min)));
 }
